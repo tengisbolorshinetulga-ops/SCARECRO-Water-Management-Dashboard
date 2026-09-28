@@ -126,14 +126,13 @@ OpenET Satellite API            Ambient Weather Station
                Grafana Dashboard
 
 ```
-
-Data Sources 
+ 
 ---
 ## Data Sources
 
 | Source | What It Provides |
 |--------|-----------------|
-| [OpenET](https://etdata.org) | Daily satellite-derived ET estimates using an ensemble of five ET models |
+| [OpenET](https://etdata.org) | Daily satellite-derived ET estimates using an ensemble of five ET models from Nasa satellite data|
 | [Ambient Weather WS-1965](https://ambientweather.com) | On-site temperature, humidity, rainfall, wind, barometric pressure, air quality, leaf wetness |
 | MongoDB Atlas | Cloud storage for all raw and analyzed data |
 | Grafana | Live visualization dashboard |
