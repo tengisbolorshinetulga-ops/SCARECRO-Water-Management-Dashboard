@@ -99,6 +99,8 @@ MongoDB aggregation pipelines written in JSON connect the database directly to G
 How it Works
 ---
 
+```
+
 OpenET Satellite API            Ambient Weather Station
         │                                │
         ▼                                ▼
@@ -122,3 +124,5 @@ OpenET Satellite API            Ambient Weather Station
                        │
                        ▼
                Grafana Dashboard
+
+```
