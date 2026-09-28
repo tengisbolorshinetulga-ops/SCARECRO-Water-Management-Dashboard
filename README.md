@@ -129,4 +129,27 @@ OpenET Satellite API            Ambient Weather Station
 
 Data Sources 
 ---
-| Tool | purpose |
+## Data Sources
+
+| Source | What It Provides |
+|--------|-----------------|
+| [OpenET](https://etdata.org) | Daily satellite-derived ET estimates using an ensemble of five ET models |
+| [Ambient Weather WS-1965](https://ambientweather.com) | On-site temperature, humidity, rainfall, wind, barometric pressure, air quality, leaf wetness |
+| MongoDB Atlas | Cloud storage for all raw and analyzed data |
+| Grafana | Live visualization dashboard |
+
+---
+
+## Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| Python 3.11 | All data collection and analysis scripts |
+| Pandas | Time series aggregation, statistical analysis, streak detection |
+| PyMongo | MongoDB reads and writes from Python |
+| MongoDB Atlas | Multi-collection cloud database across two clusters |
+| Grafana | Live dashboard with MongoDB aggregation pipeline queries |
+| GitHub Actions | Automated daily CI/CD pipeline with sequential job dependencies |
+| OpenET API | Satellite ET data via REST |
+| Ambient Weather API | IoT weather station data via REST |
+| python-dotenv | Environment variable and secrets management |
