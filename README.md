@@ -96,3 +96,29 @@ Visualization
 
 MongoDB aggregation pipelines written in JSON connect the database directly to Grafana. A single source query feeds multiple visualization panels through Grafana's dashboard data source pattern, reducing redundant database calls. The result is a live, auto-refreshing dashboard that updates daily without any manual intervention.
 
+How it Works
+---
+
+OpenET Satellite API            Ambient Weather Station
+        │                                │
+        ▼                                ▼
+  All_Locations2.py          Weather_station_data.py
+  (Daily ET fetch)           (15-min weather fetch)
+        │                                │
+        ▼                                ▼
+  ET_data (MongoDB)          WEATHER_STATION (MongoDB)
+        │                                │
+        ▼                                ▼
+  et_analysis.py             weather_analysis.py
+        │                                │
+        ▼                                ▼
+  ET_summary / ET_trends     WEATHER_ANALYSIS / WEATHER_TRENDS
+        └──────────────┬─────────────────┘
+                       ▼
+         irrigation_recommendation.py
+                       │
+                       ▼
+           IRRIGATION_RECOMMENDATION
+                       │
+                       ▼
+               Grafana Dashboard
