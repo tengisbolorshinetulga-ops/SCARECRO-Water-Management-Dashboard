@@ -1,0 +1,89 @@
+name: Fetch ET Data Daily
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pymongo pandas python-dotenv
+
+      - name: Run script
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          OPENET_API_KEY: ${{ secrets.OPENET_API_KEY }}
+        run: |
+          python3 SARE_repo/All_Locations2.py
+
+  run-analysis:
+    needs: fetch-data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pymongo pandas python-dotenv matplotlib
+
+      - name: Run analysis script
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: |
+          python3 SARE_repo/analysis/et_analysis.py
+
+  run-weather-analysis:
+    needs: run-analysis
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 
+        uses: actions/setup-python@v4
+        with: 
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+            pip install pymongo pandas python-dotenv matplotlib
+
+      - name: Run analysis script 
+        env: 
+          WEATHER_MONGODB_URI: ${{ secrets.WEATHER_MONGODB_URI }}
+        run: | 
+          python3 SARE_repo/analysis/weather_analysis.py
+
+  run-irrigation-recommendation:
+    needs: run-weather-analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install pymongo python-dotenv
+      - name: Run irrigation recommendation script
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          WEATHER_MONGODB_URI: ${{ secrets.WEATHER_MONGODB_URI }}
+        run: |
+            python3 SARE_repo/analysis/irrigation_recommendation.py
